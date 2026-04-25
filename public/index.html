@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Food Delivery Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ff5722;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      padding: 1.5rem;
+      max-width: 700px;
+      margin: auto;
+    }
+    .menu-item {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🍔 Food Delivery Menu</h1>
+  <p id="version">Loading version...</p>
+</header>
+
+<div class="container" id="menu">
+  Loading menu...
+</div>
+
+<footer>
+  <p>Food Menu Service • CI/CD Demo</p>
+</footer>
+
+<script>
+  async function loadMenu() {
+    const res = await fetch("/api/menu");
+    const data = await res.json();
+
+    const menuDiv = document.getElementById("menu");
+    menuDiv.innerHTML = "";
+
+    data.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "menu-item";
+      div.innerHTML = `<strong>${item.name}</strong><span>₹${item.price}</span>`;
+      menuDiv.appendChild(div);
+    });
+  }
+
+  async function loadVersion() {
+    const res = await fetch("/version");
+    const data = await res.json();
+    document.getElementById("version").innerText =
+      `Version: ${data.version}`;
+  }
+
+  loadMenu();
+  loadVersion();
+</script>
+
+</body>
+</html>
